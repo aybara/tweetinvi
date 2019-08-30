@@ -234,7 +234,7 @@ namespace Tweetinvi.Streams
             {
                 App app = null;
 
-                if (messageEventDTO.MessageCreate.SourceAppId != null)
+                if (messageEventDTO.MessageCreate.SourceAppId != null && apps != null)
                 {
                     apps.TryGetValue(messageEventDTO.MessageCreate.SourceAppId.ToString(), out app);
                 }
