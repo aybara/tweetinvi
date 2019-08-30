@@ -11,6 +11,13 @@ using Tweetinvi.Core.Wrappers;
 using Tweetinvi.Events;
 using Tweetinvi.Models.Webhooks;
 using Tweetinvi.Streams;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System.Linq;
+using Tweetinvi.Logic.DTO;
+using Tweetinvi.Logic.TwitterEntities;
+using Tweetinvi.Models.Entities;
+
 
 namespace Testinvi.Tweetinvi.Streams
 {
@@ -44,7 +51,7 @@ namespace Testinvi.Tweetinvi.Streams
         public void TweetEventRaised()
         {
             var activityStream = CreateAccountActivityStream();
-            
+
             var json = @"{
 	            ""for_user_id"": ""100"",
 	            ""tweet_create_events"": [
@@ -408,6 +415,7 @@ namespace Testinvi.Tweetinvi.Streams
             Assert.AreEqual(eventsReceived[0].Message.Text, "Hello World!");
             Assert.AreEqual(eventsReceived[0].Message.SenderId, 3001969357);
         }
+
         [TestMethod]
         public void DirectMessageReceivedWithUrl()
         {
@@ -433,15 +441,24 @@ namespace Testinvi.Tweetinvi.Streams
 					            ""user_mentions"": [],
 					            ""urls"": [
                                             {
-                                              ""url"": ""http:\/\/ t.co\/ 78pYTvWfJd"",
-                                              ""expanded_url"": ""http:\/\/dev.twitter.com"",
-                                              ""display_url"": ""dev.twitter.com"",
-                                              ""indices"": [
-                                                0,
-                                                22
-                                              ]
-                                            }
-                                ]
+                                                ""url"": ""https://t.co/sA2PL0PWAu"",
+                                                ""expanded_url"": ""https://twitter.com/messages/media/1166754237675659269"",
+                                                ""display_url"": ""pic.twitter.com/sA2PL0PWAu"",
+                                                ""indices"": [
+                                                    1,
+                                                    24
+                                                ]
+                                             },
+{
+                                                ""url"": ""https://t.co/sA2PL0PWAu"",
+                                                ""expanded_url"": ""https://twitter.com/messages/media/1166754237675659269"",
+                                                ""display_url"": ""pic.twitter.com/sA2PL0PWAu"",
+                                                ""indices"": [
+                                                    1,
+                                                    24
+                                                ]
+                                             }
+                                          ]
 				            }
 			            }
 		            }
@@ -486,6 +503,7 @@ namespace Testinvi.Tweetinvi.Streams
 	            }
             }";
 
+
             var eventsReceived = new List<MessageEventArgs>();
             activityStream.MessageReceived += (sender, args) =>
             {
@@ -499,6 +517,7 @@ namespace Testinvi.Tweetinvi.Streams
             Assert.AreEqual(eventsReceived.Count, 1);
             Assert.AreEqual(eventsReceived[0].Message.Text, "Hello World!");
             Assert.AreEqual(eventsReceived[0].Message.SenderId, 3001969357);
+            Assert.AreEqual(eventsReceived[0].Message.Entities.Urls[0].URL, "https://t.co/sA2PL0PWAu");
         }
 
         [TestMethod]

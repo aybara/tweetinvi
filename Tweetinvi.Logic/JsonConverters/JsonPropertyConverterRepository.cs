@@ -201,6 +201,19 @@ namespace Tweetinvi.Logic.JsonConverters
 
             JsonConverters.Add(typeof(IVideoEntityVariant), videoEntityVariantConverter);
             JsonConverters.Add(typeof(IVideoInformationEntity), videoInformationEntityConverter);
+
+            // Converter list of interfaces in list of objects
+            var listUrlEntityConverter = new JsonListInterfaceToListObjectConverter<IUrlEntity, UrlEntity>();
+            var listUserMentionEntityConverter = new JsonListInterfaceToListObjectConverter<IUserMentionEntity, UserMentionEntity>();
+            var listHashtagEntityConverter = new JsonListInterfaceToListObjectConverter<IHashtagEntity, HashtagEntity>();
+            var listSymbolEntityConverter = new JsonListInterfaceToListObjectConverter<ISymbolEntity, SymbolEntity>();
+            var listMediaEntityConverter = new JsonListInterfaceToListObjectConverter<IMediaEntity, MediaEntity>();
+
+            JsonConverters.Add(typeof(List<IUrlEntity>), listUrlEntityConverter);
+            JsonConverters.Add(typeof(List<IUserMentionEntity>), listUserMentionEntityConverter);
+            JsonConverters.Add(typeof(List<IHashtagEntity>), listHashtagEntityConverter);
+            JsonConverters.Add(typeof(List<ISymbolEntity>), listSymbolEntityConverter);
+            JsonConverters.Add(typeof(List<IMediaEntity>), listMediaEntityConverter);
         }
 
         private static void InitializeWebhookConverters()
