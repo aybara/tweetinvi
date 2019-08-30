@@ -7,6 +7,7 @@ namespace Tweetinvi.Logic.TwitterEntities
     public class ObjectEntitiesDTO : IObjectEntities
     {
         [JsonProperty("urls")]
+        [JsonConverter(typeof())]
         public List<IUrlEntity> Urls { get; set; }
 
         [JsonProperty("user_mentions")]
