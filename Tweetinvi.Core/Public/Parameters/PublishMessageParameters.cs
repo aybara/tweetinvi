@@ -23,10 +23,12 @@ namespace Tweetinvi.Parameters
         {
             if (string.IsNullOrEmpty(text))
             {
-                throw new ArgumentNullException(nameof(text), "Message Text cannot be null or empty.");
+                Text = " ";
             }
-
-            Text = text;
+            else
+            {
+                Text = text;
+            }
             RecipientId = recipientId;
         }
 

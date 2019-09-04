@@ -16,11 +16,11 @@ namespace Tweetinvi.Logic.JsonConverters
     {
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
+            var objectsList = serializer.Deserialize<List<U>>(reader);
             var interfacesList = new List<T>();
-            JArray jArray = JArray.Load(reader);
-            foreach (var jToken in jArray)
+            foreach (var obj in objectsList)
             {
-                interfacesList.Add(jToken.ToObject<U>());
+                interfacesList.Add(obj);
             }
             return interfacesList;
         }
@@ -33,7 +33,7 @@ namespace Tweetinvi.Logic.JsonConverters
 
         public Type ListInterfaceType
         {
-            get { return typeof(List<T>); }
+            get { return typeof(Dictionary<string, T>); }
         }
 
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
